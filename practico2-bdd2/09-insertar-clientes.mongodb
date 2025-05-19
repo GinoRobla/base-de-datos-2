@@ -1,0 +1,7 @@
+db.clientes.insertMany([
+  { nombre: "Laura", apellido: "Gómez", email: "laura@example.com" },
+  { nombre: "Carlos", apellido: "Pérez", email: "carlos@example.com" },
+  { nombre: "Ana", apellido: "López", email: "ana@example.com" },
+  { nombre: "María", apellido: "Gómez", email: "maria@example.com" },
+  { nombre: "Jorge", apellido: "Pérez", email: "jorge@example.com" }
+])

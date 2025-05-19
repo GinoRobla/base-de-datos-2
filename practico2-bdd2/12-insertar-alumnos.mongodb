@@ -1,0 +1,10 @@
+db.alumnos.insertMany([
+  {
+    nombre: "Juan",
+    cursos: [ObjectId("681a25e81af6d34c4981dfea"), ObjectId("681a25e81af6d34c4981dfeb")]
+  },
+  {
+    nombre: "Lucía",
+    cursos: [ObjectId("681a25e81af6d34c4981dfec")]
+  }
+])

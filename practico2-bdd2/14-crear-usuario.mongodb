@@ -1,0 +1,7 @@
+db.createUser({
+  user: "usuarioApp",
+  pwd: "contrasenaSegura123",
+  roles: [
+    { role: "readWrite", db: "empresa" }
+  ]
+})

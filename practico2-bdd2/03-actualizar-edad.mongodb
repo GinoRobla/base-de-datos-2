@@ -1,0 +1,1 @@
+db.empleados.updateOne({nombre: "Pedro"}, {$set: {edad:33}})

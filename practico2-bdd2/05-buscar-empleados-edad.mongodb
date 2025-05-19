@@ -1,0 +1,1 @@
+db.empleados.find({edad: { $gt: 25, $lte: 40 }})

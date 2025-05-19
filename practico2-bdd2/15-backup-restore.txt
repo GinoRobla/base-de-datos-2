@@ -1,0 +1,2 @@
+mongodump --db empresa --out ~/backups/may2025
+mongorestore --db empresa ~/backups/may2025/empresa

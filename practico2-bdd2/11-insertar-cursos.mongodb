@@ -1,0 +1,5 @@
+db.cursos.insertMany([
+  { nombre: "Matemática" },
+  { nombre: "Historia" },
+  { nombre: "Programación" }
+])
