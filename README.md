@@ -1,4 +1,4 @@
-# 📌 Base de datos 2 - Trabajos Prácticos
+# 📌 Base de datos - Trabajos Prácticos
 ## 👨‍💻 Integrantes del grupo
 - **Gino Robla**
 - **Giuliano Tedeschi Gómez**
