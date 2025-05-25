@@ -1,0 +1,25 @@
+db.ventas.aggregate([
+    {
+$addFields:{
+    mes:{$month:"$fecha"}
+}
+    },
+{
+    $facet:{
+        "fechaPrueba":[
+            {
+                $group:{
+                    _id: "$mes"
+                }
+            }
+        ],
+        "productosPrueba":[
+            {
+                $group:{
+                    _id:"$producto_id"
+                }
+            }
+        ]
+    }
+}
+])

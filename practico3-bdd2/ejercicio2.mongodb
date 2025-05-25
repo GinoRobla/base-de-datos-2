@@ -1,0 +1,20 @@
+db.productos.aggregate([
+    {
+        $group: {
+            _id: "$categoria",
+            precioProm: { $avg: "$precio" },
+            precioMax: { $max: "$precio" },
+            precioMin: { $min: "$precio" }
+        }
+    }
+]);
+db.ventas.aggregate([
+    {
+        $group: {
+            _id: "$cliente.pais",
+            totalTransacciones: { $sum: 1 },
+            cantidadDeProductos: { $sum: "$cantidad" },
+            montoTotal: { $sum: "$total" }
+        }
+    }
+]);
