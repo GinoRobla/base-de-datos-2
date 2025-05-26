@@ -1,0 +1,16 @@
+db.ventas.aggregate([
+{
+    $lookup: {
+        from: "productos",
+        localField: "producto_id",
+        foreignField: "_id",
+        as: "producto_info"
+    }
+},
+{
+    $group:{
+        _id: "$producto_info.categoria",
+        totalVendido: { $sum: "$total" }
+    }
+}
+]);

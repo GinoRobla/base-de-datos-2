@@ -1,0 +1,20 @@
+db.productos.aggregate([
+    {
+        $project:{
+            _id: "$nombre",
+            puntuacion:{$avg:"$valoraciones.puntuacion"},
+            cantidadValoraciones:{$size:"$valoraciones"}
+        }
+    },
+    {
+        $match: {
+                cantidadValoraciones: {$gt:2}        
+                }
+    },
+    {
+        $sort:{puntuacion: -1}
+    },
+    {
+        $limit: 1
+    }
+])
