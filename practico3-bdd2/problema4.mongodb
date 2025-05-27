@@ -1,0 +1,63 @@
+db.ventas.aggregate([
+    // Primero, obtenemos la información de compras del cliente
+    {
+        $lookup: {
+            from: "productos",
+            localField: "producto_id",
+            foreignField: "_id",
+            as: "producto"
+        }
+    },
+    { $unwind: "$producto" },
+    {
+        $group: {
+            _id: {
+                nombre: "$cliente.nombre",
+                email: "$cliente.email"
+            },
+            categorias: { $addToSet: "$producto.categoria" },
+            productosComprados: { $addToSet: "$producto._id" }
+        }
+    },
+
+    // Luego, obtenemos los productos que podrían interesar al cliente
+    {
+        $lookup: {
+            from: "productos",
+            let: { categorias: "$categorias", productosComprados: "$productosComprados" },
+            // Este pipeline sirve para encontrar todos los productos que no compró el cliente y los muestra
+            pipeline: [
+                {
+                    $match: {
+                        $expr: {
+                            $and: [
+                                { $in: ["$categoria", "$$categorias"] },
+                                // se probó con $nin y no funcionó
+                                { $not: { $in: ["$_id", "$$productosComprados"] } }
+                            ]
+                        }
+                    }
+                },
+                {
+                    $project: {
+                        _id: 1,
+                        nombre: 1,
+                        categoria: 1,
+                        precio: 1
+                    }
+                }
+            ],
+            as: "productosRecomendados"
+        }
+    },
+    {
+        $sort: { "id.nombre": 1 }
+    },
+
+    // Finalmente, proyectamos los resultados
+    {
+        $project: {
+            productosRecomendados: 1
+        }
+    }
+])
