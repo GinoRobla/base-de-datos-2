@@ -1,0 +1,99 @@
+db.ventas.aggregate([
+    {
+        // Tomamos la colección productos y la desarmamos para poder trabajor con ella
+        $lookup: {
+            from: "productos",
+            localField: "producto_id",
+            foreignField: "_id",
+            as: "producto"
+        }
+    },
+    { $unwind: "$producto" },
+
+    // Agrupamos para dejar Clientes, Productos y Categorías juntos.
+    {
+        $group: {
+            _id: {
+                email: "$cliente.email",
+                nombre: "$cliente.nombre",
+                producto: "$producto.nombre",
+                categoria: "$producto.categoria"
+            },
+            totalGastado: { $sum: "$total" },
+            cantidadComprada: { $sum: "$cantidad" },
+            primeraCompra: { $min: "$fecha" },
+            ultimaCompra: { $max: "$fecha" }
+        }
+    },
+
+    // Agrupamos por Clientes y juntamos las listas de Productos y Categorías
+    {
+        $group: {
+            _id: {
+                email: "$_id.email",
+                nombre: "$_id.nombre"
+            },
+            totalGastado: { $sum: "$totalGastado" },
+            totalCompras: { $sum: "$cantidadComprada" },
+            productos: {
+                $push: {
+                nombre: "$_id.producto",
+                cantidad: "$cantidadComprada"
+                }
+            },
+            categorias: {
+                $push: {
+                nombre: "$_id.categoria",
+                gasto: "$totalGastado"
+                }
+            },
+            primeraCompra: { $min: "$primeraCompra" },
+            ultimaCompra: { $max: "$ultimaCompra" }
+        }
+    },
+
+    // Desagrupamos por la parte de Productos para poder ordenar los grupos Cantidad
+    { $unwind: "$productos" },
+    { $sort: { "_id.email": 1, "productos.cantidad": -1 } },
+    {
+        $group: {
+            _id: "$_id",
+            totalGastado: { $first: "$totalGastado" },
+            totalCompras: { $first: "$totalCompras" },
+            productoFavorito: { $first: "$productos.nombre" },
+            categorias: { $first: "$categorias" },
+            primeraCompra: { $first: "$primeraCompra" },
+            ultimaCompra: { $first: "$ultimaCompra" }
+        }
+    },
+
+    // Desagrupamos por la parte de Categorías para poder ordenar por Gastos
+    { $unwind: "$categorias" },
+    { $sort: { "_id.email": 1, "categorias.gasto": -1 } },
+    {
+        $group: {
+            _id: "$_id",
+            totalGastado: { $first: "$totalGastado" },
+            totalCompras: { $first: "$totalCompras" },
+            productoFavorito: { $first: "$productoFavorito" },
+            categoriaPreferida: { $first: "$categorias.nombre" },
+            primeraCompra: { $first: "$primeraCompra" },
+            ultimaCompra: { $first: "$ultimaCompra" }
+        }
+    },
+
+    // Por último proyectamos todos los datos sin el ID para su muestra en pantalla
+    {
+        $project: {
+            _id: 0,
+            cliente: "$_id.nombre",
+            email: "$_id.email",
+            totalGastado: 1,
+            totalCompras: 1,
+            productoFavorito: 1,
+            categoriaPreferida: 1,
+            primeraCompra: 1,
+            ultimaCompra: 1
+        }
+    }
+])
