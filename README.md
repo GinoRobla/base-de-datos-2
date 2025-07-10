@@ -7,3 +7,4 @@
 - **Práctico 3**: Agregaciones y consultas avanzadas en MongoDB.
 - **Simulacro de parcial**: Evaluación integradora utilizando MongoDB.
 - **Práctico 4**: Modelado de grafos y consultas Cypher en Neo4j.
+- **Proyecto:** Sistema de Inventario de Tienda (MongoDB)
