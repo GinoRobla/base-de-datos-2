@@ -1,6 +1,5 @@
-# Base de Datos II – MySQL y MongoDB
+# Base de Datos II – MySQL, MongoDB y Neo4j
 
-📘 Repositorio académico con trabajos prácticos desarrollados durante la cursada de **Base de Datos II**. Incluye consultas SQL con MySQL, y operaciones CRUD, agregaciones y consultas avanzadas con MongoDB.
 
 ## 🧠 Contenidos principales
 - **Práctico 1**: Repaso de MySql.
