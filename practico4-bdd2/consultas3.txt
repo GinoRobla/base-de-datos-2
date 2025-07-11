@@ -1,0 +1,21 @@
+// 1. Usuarios con más conexiones
+MATCH (u:Usuario)-[:CONOCE]->(otro:Usuario)
+RETURN u.nombre AS Usuario, count(otro) AS Conexiones
+ORDER BY Conexiones DESC;
+
+// 2. Los 2 usuarios con más publicaciones
+MATCH (u:Usuario)-[:PUBLICA]->(p:Post)
+RETURN u.nombre AS Usuario, count(p) AS Publicaciones
+ORDER BY Publicaciones DESC
+LIMIT 2;
+
+// 3. Habilidades más endosadas
+MATCH (u:Usuario)-[:ENDOSA]->(h:Habilidad)
+RETURN h.nombre AS Habilidad, count(u) AS Endosos
+ORDER BY Endosos DESC;
+
+// 4. Para un usuario, habilidades que no ha endosado a otros
+MATCH (u:Usuario {nombre: "Sofia"})
+MATCH (h:Habilidad)
+WHERE NOT (u)-[:ENDOSA]->(h)
+RETURN h.nombre AS HabilidadNoEndosada;

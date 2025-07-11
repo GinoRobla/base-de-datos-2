@@ -1,0 +1,71 @@
+// Crear usuarios
+CREATE (:Usuario {nombre: "Sofia"});
+CREATE (:Usuario {nombre: "Luis"});
+CREATE (:Usuario {nombre: "Marta"});
+CREATE (:Usuario {nombre: "Diego"});
+
+// Conexiones
+MATCH (a:Usuario {nombre: "Sofia"}), (b:Usuario {nombre: "Luis"})
+CREATE (a)-[:CONOCE]->(b);
+
+MATCH (a:Usuario {nombre: "Luis"}), (b:Usuario {nombre: "Marta"})
+CREATE (a)-[:CONOCE]->(b);
+
+MATCH (a:Usuario {nombre: "Marta"}), (b:Usuario {nombre: "Diego"})
+CREATE (a)-[:CONOCE]->(b);
+
+MATCH (a:Usuario {nombre: "Diego"}), (b:Usuario {nombre: "Sofia"})
+CREATE (a)-[:CONOCE]->(b);
+
+// Posts
+CREATE (:Post {titulo: "Post1", fecha: "2024-06-01"});
+CREATE (:Post {titulo: "Post2", fecha: "2024-06-02"});
+CREATE (:Post {titulo: "Post3", fecha: "2024-06-03"});
+
+MATCH (u:Usuario {nombre: "Sofia"}), (p:Post {titulo: "Post1"})
+CREATE (u)-[:PUBLICA]->(p);
+
+MATCH (u:Usuario {nombre: "Luis"}), (p:Post {titulo: "Post2"})
+CREATE (u)-[:PUBLICA]->(p);
+
+MATCH (u:Usuario {nombre: "Marta"}), (p:Post {titulo: "Post3"})
+CREATE (u)-[:PUBLICA]->(p);
+
+// Habilidades
+CREATE (:Habilidad {nombre: "Python"});
+CREATE (:Habilidad {nombre: "Excel"});
+CREATE (:Habilidad {nombre: "Diseño"});
+CREATE (:Habilidad {nombre: "SQL"});
+CREATE (:Habilidad {nombre: "Comunicación"});
+CREATE (:Habilidad {nombre: "Java"});
+
+// Cada usuario tiene 2 habilidades
+MATCH (u:Usuario {nombre: "Sofia"}), (h:Habilidad {nombre: "Python"})
+CREATE (u)-[:TIENE]->(h);
+MATCH (u:Usuario {nombre: "Sofia"}), (h:Habilidad {nombre: "Excel"})
+CREATE (u)-[:TIENE]->(h);
+
+MATCH (u:Usuario {nombre: "Luis"}), (h:Habilidad {nombre: "Diseño"})
+CREATE (u)-[:TIENE]->(h);
+MATCH (u:Usuario {nombre: "Luis"}), (h:Habilidad {nombre: "SQL"})
+CREATE (u)-[:TIENE]->(h);
+
+MATCH (u:Usuario {nombre: "Marta"}), (h:Habilidad {nombre: "Comunicación"})
+CREATE (u)-[:TIENE]->(h);
+MATCH (u:Usuario {nombre: "Marta"}), (h:Habilidad {nombre: "Python"})
+CREATE (u)-[:TIENE]->(h);
+
+MATCH (u:Usuario {nombre: "Diego"}), (h:Habilidad {nombre: "Java"})
+CREATE (u)-[:TIENE]->(h);
+MATCH (u:Usuario {nombre: "Diego"}), (h:Habilidad {nombre: "SQL"})
+CREATE (u)-[:TIENE]->(h);
+
+// Endosos (algunos)
+MATCH (u:Usuario {nombre: "Luis"}), (h:Habilidad {nombre: "Python"})
+CREATE (u)-[:ENDOSA]->(h);
+
+MATCH (u:Usuario {nombre: "Marta"}), (h:Habilidad {nombre: "Excel"})
+CREATE (u)-[:ENDOSA]->(h);
+
+MATCH (u:Usuario {nombre: "Diego"}), (h:Habilidad {nombre: "SQL"})
+CREATE (u)-[:ENDOSA]->(h);

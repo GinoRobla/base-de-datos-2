@@ -1,0 +1,43 @@
+// Crear departamentos
+CREATE (:Departamento {nombre: "IT"});
+CREATE (:Departamento {nombre: "Ventas"});
+CREATE (:Departamento {nombre: "RRHH"});
+
+// Crear empleados
+CREATE (:Empleado {nombre: "Juan"});
+CREATE (:Empleado {nombre: "Ana"});
+CREATE (:Empleado {nombre: "Pedro"});
+
+// Crear proyectos
+CREATE (:Proyecto {nombre: "ProyectoA"});
+CREATE (:Proyecto {nombre: "ProyectoB"});
+
+// Relacionar empleados con departamentos
+MATCH (e:Empleado {nombre: "Juan"}), (d:Departamento {nombre: "IT"})
+CREATE (e)-[:PERTENECE]->(d);
+
+MATCH (e:Empleado {nombre: "Ana"}), (d:Departamento {nombre: "Ventas"})
+CREATE (e)-[:PERTENECE]->(d);
+
+MATCH (e:Empleado {nombre: "Pedro"}), (d:Departamento {nombre: "RRHH"})
+CREATE (e)-[:PERTENECE]->(d);
+
+// Asignar empleados a proyectos con horas
+MATCH (e:Empleado {nombre: "Juan"}), (p:Proyecto {nombre: "ProyectoA"})
+CREATE (e)-[:ASIGNADO {horas: 20}]->(p);
+
+MATCH (e:Empleado {nombre: "Ana"}), (p:Proyecto {nombre: "ProyectoA"})
+CREATE (e)-[:ASIGNADO {horas: 10}]->(p);
+
+MATCH (e:Empleado {nombre: "Pedro"}), (p:Proyecto {nombre: "ProyectoB"})
+CREATE (e)-[:ASIGNADO {horas: 15}]->(p);
+
+MATCH (e:Empleado {nombre: "Juan"}), (p:Proyecto {nombre: "ProyectoB"})
+CREATE (e)-[:ASIGNADO {horas: 5}]->(p);
+
+// Un líder por proyecto
+MATCH (e:Empleado {nombre: "Juan"}), (p:Proyecto {nombre: "ProyectoA"})
+CREATE (e)-[:LIDERA]->(p);
+
+MATCH (e:Empleado {nombre: "Pedro"}), (p:Proyecto {nombre: "ProyectoB"})
+CREATE (e)-[:LIDERA]->(p);
